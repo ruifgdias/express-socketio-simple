@@ -1,0 +1,16 @@
+{
+  "name": "express-socketio-simple",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "author": "ruifgdias",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "path": "^0.12.7",
+    "socket.io": "^1.4.8"
+  }
+}
