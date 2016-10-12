@@ -3,6 +3,7 @@
 ## Installation
 
 ```
+//install modeles
 cd express-socketio-simple
 npm install
 ```
@@ -10,10 +11,11 @@ npm install
 ## Usage
 
 ```
-npm start
+//start server
+npm start 
 
-browser:
-        localhost:3000
+//navigate to
+localhost:3000
 ```
 
 
