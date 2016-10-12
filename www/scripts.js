@@ -7,8 +7,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
             ctx = canvas.getContext('2d'),
             x, y, socket = io();
 
-        name = prompt("Please enter your name", "");
-
         // Start util functions
         let resizeCanvas = () => {
             console.log("resize");
@@ -70,17 +68,51 @@ document.addEventListener("DOMContentLoaded", function (event) {
             drawOthers();
         }
 
+        let getJSON = function (url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("get", url, true);
+            xhr.responseType = "json";
+            xhr.onload = function () {
+                var status = xhr.status;
+                if (status == 200) {
+                    callback(null, xhr.response);
+                } else {
+                    callback(status);
+                }
+            };
+            xhr.send();
+        };
+
         // End util functions
 
 
         //receive a move from other user
         socket.on('move', data => updateUsers(data));
 
+        //other user disconnect
+        socket.on('user_disconnect', data => {
+            try {
+                users.remove(data.username);
+            } catch (error) {
+                console.log(error);
+            }
+        });
+
         // resize the canvas to fill browser window dynamically
         window.addEventListener('resize', resizeCanvas(), false);
 
         // detect mousemove on canvas, redraw and send move information to others users
-        canvas.addEventListener('mousemove',(evt) => updateAll(evt), false);
+        canvas.addEventListener('mousemove', (evt) => updateAll(evt), false);
+
+        getJSON("http://localhost:3000/api/moves", (err, res) => {
+
+            for (name in JSON.parse(res)) {
+                users.set(name, JSON.parse(res)[name]);
+            }
+
+        });
+
+        name = prompt("Please enter your name", "");
 
         resizeCanvas();
     })();
